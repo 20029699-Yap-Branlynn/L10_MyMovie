@@ -90,9 +90,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] columns= {COLUMN_ID, COLUMN_MOVIE_TITLE, COLUMN_MOVIE_GENRE, COLUMN_MOVIE_YEAR, COLUMN_MOVIE_RATE};
-        String filter = COLUMN_MOVIE_RATE + "= PG13";
-        //String[] a = {R.id.radioButton5 + ""};
-        Cursor cursor = db.query(TABLE_MOVIE, columns, filter, null,
+        String filter = COLUMN_MOVIE_RATE + "= ?";
+        String[] args = {"PG13"} ;
+        Cursor cursor = db.query(TABLE_MOVIE, columns, filter, args,
                 null, null, null, null);
 
         if (cursor.moveToFirst()) {

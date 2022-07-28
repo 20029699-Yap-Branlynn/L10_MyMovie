@@ -3,8 +3,10 @@ package sg.edu.rp.c346.id20029699.mymovie;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -56,14 +58,17 @@ public class Show extends AppCompatActivity {
                 CAMovie.notifyDataSetChanged();
             }
         });
-
     }
 
+    //app will autoload savedData
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("OnResume", "Data changed");
+        DBHelper dbh = new DBHelper(this);
+        al.clear();
+        al.addAll(dbh.getAllMovies());
+        CAMovie.notifyDataSetChanged();
 
-        String msg = "No Movie";
-        Toast toast = Toast.makeText(Show.this,msg,Toast.LENGTH_LONG);
     }
 }

@@ -2,6 +2,7 @@ package sg.edu.rp.c346.id20029699.mymovie;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +21,7 @@ public class Edit extends AppCompatActivity {
 
     TextView tvID, tvTitle, tvGenre, tvYear, tvRating;
     EditText etID,etTitle, etGenre, etYear;
-    Button update, delete;
+    Button update, delete, returnbtn;
     Spinner spinner;
 
     Movie edit;
@@ -42,6 +43,7 @@ public class Edit extends AppCompatActivity {
         spinner = findViewById(R.id.spinnerRating);
         update = findViewById(R.id.UpdateButton);
         delete = findViewById(R.id.deleteButton);
+        returnbtn = findViewById(R.id.returnButton);
 
 
         Intent a = getIntent();
@@ -85,9 +87,17 @@ public class Edit extends AppCompatActivity {
             public void onClick(View view) {
                 DBHelper dbh = new DBHelper(Edit.this);
                 dbh.deleteSong(edit.getId());
+                Toast.makeText(Edit.this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                clear();
             }
         });
 
+        returnbtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void clear() {
