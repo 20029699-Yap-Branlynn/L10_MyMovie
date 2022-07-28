@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class Show extends AppCompatActivity {
     ArrayAdapter<Movie> adapter;
     ArrayList<Movie> al;
     CustomAdapter CAMovie;
+    Spinner filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class Show extends AppCompatActivity {
 
         showBtn = findViewById(R.id.showPG13);
         lv = findViewById(R.id.list);
+        filter = findViewById(R.id.spinnerFilter);
 
         DBHelper db = new DBHelper(Show.this);
         al = db.getAllMovies();
@@ -54,8 +57,52 @@ public class Show extends AppCompatActivity {
             public void onClick(View v) {
                 al.clear();
                 DBHelper db = new DBHelper(Show.this);
-                al.addAll(db.getPg13());
+                al.addAll(db.getAllMovies());
                 CAMovie.notifyDataSetChanged();
+            }
+        });
+
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long id) {
+                DBHelper db = new DBHelper(Show.this);
+                switch (i){
+                    case 0:
+                        al.clear();
+                        al.addAll(db.getRate("G"));
+                        CAMovie.notifyDataSetChanged();
+                        break;
+                    case 1:
+                        al.clear();
+                        al.addAll(db.getRate("PG"));
+                        CAMovie.notifyDataSetChanged();
+                        break;
+                    case 2:
+                        al.clear();
+                        al.addAll(db.getRate("PG13"));
+                        CAMovie.notifyDataSetChanged();
+                        break;
+                    case 3:
+                        al.clear();
+                        al.addAll(db.getRate("NC16"));
+                        CAMovie.notifyDataSetChanged();
+                        break;
+                    case 4:
+                        al.clear();
+                        al.addAll(db.getRate("M18"));
+                        CAMovie.notifyDataSetChanged();
+                        break;
+                    case 5:
+                        al.clear();
+                        al.addAll(db.getRate("R21"));
+                        CAMovie.notifyDataSetChanged();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
